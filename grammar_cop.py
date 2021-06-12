@@ -23,7 +23,8 @@ async def on_message(message):
   if(message.author == client.user):
     return
   
-
+  
+  ### Makes sure that the language might not be Danish
   if("å" in message.content or "ø" in message.content or "æ" in message.content):
     return
 
@@ -83,7 +84,15 @@ async def on_message(message):
     sug += "*I'll"
     sug += " "
 
+    
+  ### Checks for youre and change to you're
+  while("youre " in text):
+    wrong = True
+    text = text.replace("youre", "you're")
+    sug += "*you're"
+    sug += " "
 
+    
   ### Sends the the suggested correction
   if(wrong):
     await message.channel.send(sug)
