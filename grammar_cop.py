@@ -14,16 +14,22 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-  text = message.content.capitalize()
+  text = message.content
   wrong = False
   sug = ""
-  
+  print(text)
+
 
   ### Checks if message is from the bot ifself
   if(message.author == client.user):
     return
   
-  
+
+  ### Makes sure that if it is a link or GIF, it won't correct it
+  if("https" in text):
+    return
+
+
   ### Makes sure that the language might not be Danish
   if("å" in message.content or "ø" in message.content or "æ" in message.content):
     return
@@ -84,7 +90,7 @@ async def on_message(message):
     sug += "*I'll"
     sug += " "
 
-    
+
   ### Checks for youre and change to you're
   while("youre " in text):
     wrong = True
@@ -92,7 +98,7 @@ async def on_message(message):
     sug += "*you're"
     sug += " "
 
-    
+
   ### Sends the the suggested correction
   if(wrong):
     await message.channel.send(sug)
