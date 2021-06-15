@@ -61,7 +61,7 @@ async def on_message(message):
 
   # Help Function
   if(message.content == '+help'):
-    await message.channel.send('```Calculus Bot Help:\n\nLimits: +lims [function],[value]\nDerivative: +diff [function]\nAntiderivative: +inte [function]\nDefinite Integral: +defi [function],[a],[b]\nArea Between Curves: +area [function1],[function2],[a],[b]\nAverage Value: +avgv [function],[a],[b]\n\nVolume of Revolutions:\nOBS: If the function(s) are revolved around another line than the x-axis, remember to subtract that line from the [function] part. Ex. if x^2 is revolved around x=2, then you would write x**2 - 2 as the function.\nDisk Volume of Revolution: +dvol [function],[a],[b]\nWasher Volume of Revolution: +wvol [function1],[function2],[a],[b]\n\nCross Section Volumes:\nOBS: These calculations can take a couple of seconds\nCross Section of Square: +cssq [function1],[function2],[a],[b]\nCross Section of Semi-Circle: +cssc [function1],[function2],[a],[b]\n\nHow functions and symbols look:\n2x^2 = 2*x**2\ne^x = exp(x)\nSquareroot of x = sqrt(x)\nInfinity = oo\n\nHelpful tip: All these functions are default for "y=" or "f(x)" but if you need horizontal strips for areas or your volume is revolved the y-axis then write the function as a "x=" or "f(y)" and also find the y= values for the limits, then you can put then in just using x, and get your answer!!!```')
+    await message.channel.send('```Calculus Bot Help:\n\nLimits: +lims [function],[value]\nDerivative: +diff [function]\nAntiderivative: +inte [function]\nDefinite Integral: +defi [function],[a],[b]\nArea Between Curves: +area [function1],[function2],[a],[b]\nAverage Value: +avgv [function],[a],[b]\nInstantaneous Rate of Change: +iroc [function],[value]\nAverage Rate of Change on (a,b): +aroc [function],[a],[b]\n\nVolume of Revolutions:\nOBS: If the function(s) are revolved around another line than the x-axis, remember to subtract that line from the [function] part. Ex. if x^2 is revolved around x=2, then you would write x**2 - 2 as the function.\nDisk Volume of Revolution: +dvol [function],[a],[b]\nWasher Volume of Revolution: +wvol [function1],[function2],[a],[b]\n\nCross Section Volumes:\nOBS: These calculations can take a couple of seconds\nCross Section of Square: +cssq [function1],[function2],[a],[b]\nCross Section of Semi-Circle: +cssc [function1],[function2],[a],[b]\n\nHow functions and symbols look:\n2x^2 = 2*x**2\ne^x = exp(x)\nSquareroot of x = sqrt(x)\nInfinity = oo\n\nHelpful tip: All these functions are default for "y=" or "f(x)" but if you need horizontal strips for areas or your volume is revolved the y-axis then write the function as a "x=" or "f(y)" and also find the y= values for the limits, then you can put then in just using x, and get your answer!!!```')
   
   
   # Derivatives
@@ -131,6 +131,21 @@ async def on_message(message):
     expr = integrate(height, (x, b, c))
     print(8/pi * expr)
     await message.channel.send(N(8/pi * expr))
+
+
+  # Instantaneous Rate of Change
+  if(message.content.startswith('+iroc')):
+    derv = diff(eq,x)
+    expr = derv.subs(x, lims)
+    await message.channel.send(expr)
+
+
+  # Average Rate of Change
+  if(message.content.startswith('+aroc')):
+    derv = diff(eq,x)
+    fb = derv.subs(x,b)
+    fa = derv.subs(x,a)
+    await message.channel.send((int(fb)-int(fa)) / (int(b)-int(a)))
 
 
   ### End of Function
